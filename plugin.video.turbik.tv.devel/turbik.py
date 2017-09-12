@@ -265,7 +265,19 @@ def build_episodes_dir(soup):
     ep_links_div = soup.select_one('.sserieslistbox')
     show_title_en = soup.select_one('.sseriestitleten').text.encode('utf8')
     fanart = 'https:' + soup.select_one('.topimgseries').img.get('src')
+    language = addon.getSetting('language')
     for link in ep_links_div.find_all('a')[::-1]:
+        info_str = []
+        if link.select_one('.sserieshq'):
+            info_str.append('HQ')
+        if link.select_one('.sseriesesound'):
+            info_str.append('♫ Eng')
+        if link.select_one('.sseriesrsound'):
+            info_str.append('♫ Rus')
+        if link.select_one('.sseriesesub'):
+            info_str.append('≡ Eng')
+        if link.select_one('.sseriesrsub'):
+            info_str.append('≡ Rus')
         img = 'https:' + link.img.get('src')
         season = link.select_one('.sserieslistonetxtse').text\
                 .replace(u'Сезон: ','').encode('utf8')
@@ -273,12 +285,19 @@ def build_episodes_dir(soup):
                 .replace(u'Эпизод: ','').encode('utf8')
         episode_full = 'S%sE%s' % (season, episode)
         playcount, seek = storage.get(show_title_en, episode_full)
-        title_ru = episode + '. ' + link.select_one('.sserieslistonetxtru')\
-                .text.encode('utf8')
         title_en = episode + '. ' + link.select_one('.sserieslistonetxten')\
                 .text.encode('utf8')
+        title_ru = episode + '. ' + link.select_one('.sserieslistonetxtru')\
+                .text.encode('utf8')
         ep_url = link.get('href')
-        listitem = xbmcgui.ListItem(title_en, thumbnailImage=img)
+        if language == '0':
+            title = title_en + ' / ' + ' / '.join(info_str)
+        else:
+            title = title_ru + ' / ' + ' / '.join(info_str)
+        if playcount == -1:
+            title += ' / ' + get_sub_timecode(str(int(seek)), msec=None)
+            title = '[COLOR orange][B]%s[/B][/COLOR]' % title
+        listitem = xbmcgui.ListItem(title, thumbnailImage=img)
         listitem.setInfo(type='Video', infoLabels={'PlayCount': playcount})
         listitem.setProperty('Fanart_Image', fanart)
         url_data = {
@@ -329,16 +348,19 @@ def get_meta(meta):
         meta = meta.replace('___', pair[1])
     return base64.b64decode(meta)
 
-def get_sub_timecode(seconds):
+def get_sub_timecode(seconds, msec=True):
     try:
-        sec, msec = seconds.split(',')
+        sec, ms = seconds.split(',')
     except ValueError:
-        sec, msec = seconds, '0'
+        sec, ms = seconds, '0'
     sec = int(sec)
     hr = sec // 3600
     mm = (sec % 3600) // 60
     ss = sec % 60
-    return '%02d:%02d:%02d.%s' % (hr, mm, ss, msec)
+    if msec:
+        return '%02d:%02d:%02d.%s' % (hr, mm, ss, ms)
+    else:
+        return '%02d:%02d:%02d' % (hr, mm, ss)
 
 def get_subtitles(url):
     sub_re = re.search(r'sub.turbik.tv\/(\ben\b|\bru\b)\/(\w+)$', url)
