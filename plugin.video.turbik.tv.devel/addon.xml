@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="plugin.video.turbik.tv.devel" name="turbik.tv (beta)" version="1.002" provider-name="gruzzin@gmail.com">
+	<requires>
+		<import addon="xbmc.python" version="2.25.0"/>
+		<import addon="script.module.requests" version="2.12.4"/>
+		<import addon="script.module.simplejson" version="3.3.0"/>
+		<import addon="script.module.elementtree" version="1.2.8"/>
+		<import addon="script.module.beautifulsoup4" version="4.5.3"/>
+	</requires>
+	<extension point="xbmc.python.pluginsource" provides="video" library="turbik.py">
+		<provides>video</provides>
+	</extension>
+	<extension point="xbmc.addon.metadata">
+		<summary>Смотрите сериалы с сайта https://turbik.tv</summary>
+		<description>Смотрите сериалы с сайта https://turbik.tv</description>
+		<platform>all</platform>
+	</extension>
+</addon>

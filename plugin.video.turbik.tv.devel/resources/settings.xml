@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+	<setting id="site" type="text" label="30000" default="turbik.tv" />
+	<setting id="username" type="text" label="30001" default="" />
+	<setting id="password" type="text" label="30002" option="hidden" default="" />
+	<setting id="language" type="select" label="30009" lvalues="30013|30014" default="30013" />
+	<setting id="quality" type="select" label="30010" lvalues="30015|30016" default="30015" />
+	<setting id="subtitles" type="select" label="30011" lvalues="30013|30014|30012" default="30012" />
+	<setting id="signout" type="action" label="30017" action="RunScript(plugin.video.turbik.tv.devel, sign_out)" />
+	<setting id="IAS_ID" type="text" visible="false" default="" />
+</settings>

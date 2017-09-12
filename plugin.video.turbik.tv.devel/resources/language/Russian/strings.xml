@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+	<string id="30000">Сайт</string>
+	<string id="30001">Пользователь</string>
+	<string id="30002">Пароль</string>
+	<string id="30003">Сезон</string>
+	<string id="30004">Серия</string>
+	<string id="30005">* Что нового на этой странице *</string>
+	<string id="30006">* Ваш баланс *</string>
+	<string id="30007">Описание не доступно</string>
+	<string id="30008">/ShowSeries/all/RU/</string>
+	<string id="30009">Язык</string>
+	<string id="30010">Качество</string>
+	<string id="30013">Английский</string>
+	<string id="30014">Русский</string>
+	<string id="30015">Высокое качество</string>
+	<string id="30016">Стандартное качество</string>
+	<string id="30017">Выйти</string>
+</strings>
