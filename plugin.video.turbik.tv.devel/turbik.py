@@ -266,18 +266,24 @@ def build_episodes_dir(soup):
     show_title_en = soup.select_one('.sseriestitleten').text.encode('utf8')
     fanart = 'https:' + soup.select_one('.topimgseries').img.get('src')
     language = addon.getSetting('language')
+    if addon.getSetting('use_unicode') == 'true':
+        audio_symb = '♫ '
+        sub_symb = '≡ '
+    else:
+        audio_symb = 'A:'
+        sub_symb = 'S:'
     for link in ep_links_div.find_all('a')[::-1]:
         info_str = []
         if link.select_one('.sserieshq'):
             info_str.append('HQ')
         if link.select_one('.sseriesesound'):
-            info_str.append('♫ Eng')
+            info_str.append(audio_symb + 'Eng')
         if link.select_one('.sseriesrsound'):
-            info_str.append('♫ Rus')
+            info_str.append(audio_symb + 'Rus')
         if link.select_one('.sseriesesub'):
-            info_str.append('≡ Eng')
+            info_str.append(sub_symb + 'Eng')
         if link.select_one('.sseriesrsub'):
-            info_str.append('≡ Rus')
+            info_str.append(sub_symb + 'Rus')
         img = 'https:' + link.img.get('src')
         season = link.select_one('.sserieslistonetxtse').text\
                 .replace(u'Сезон: ','').encode('utf8')

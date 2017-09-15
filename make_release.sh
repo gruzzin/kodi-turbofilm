@@ -15,7 +15,7 @@ then
 fi
 
 releasedir=$1/$pluginname
-version_str="<addon id=\"plugin.video.turbik.tv.devel\" name=\"turbik.tv\" version=\"$2\" provider-name=\"$author\">"
+version_str="<addon id=\"$pluginname\" name=\"turbik.tv\" version=\"$2\" provider-name=\"$author\">"
 
 if [ ! -d $releasedir ]
 then
