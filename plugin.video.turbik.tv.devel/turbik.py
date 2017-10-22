@@ -473,7 +473,7 @@ def process_meta(url):
     link.append(hashlib.sha1(link[-1] + eid + 'A2DC51DE0F8BC1E9').hexdigest())
 
     return {
-        'url': 'http://cdn.turbik.tv/' + '/'.join(link),
+        'url': 'https://cdn.turbik.tv/' + '/'.join(link),
         'plot': plot,
         'image': screen,
         'ep_title_en': ep_title_en,
@@ -501,7 +501,7 @@ def PlayURL(info_dict):
         'Accept-Language': 'ru,en;q=0.9',
         'Accept-Charset': 'iso-8859-1, utf-8, utf-16, *;q=0.1',
         'Accept-Encoding': 'deflate, gzip, x-gzip, identity, *;q=0',
-        'Referer': 'http://turbik.tv/media/swf/Player20.swf',
+        'Referer': 'https://turbik.tv/media/swf/Player20.swf',
         'Connection': 'Keep-Alive'
     }
     cookies = {
