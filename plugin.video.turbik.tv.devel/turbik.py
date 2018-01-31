@@ -14,6 +14,7 @@ import xbmc
 import xbmcaddon
 import xbmcgui
 import xbmcplugin
+import xbmcvfs
 
 from bs4 import BeautifulSoup
 from elementtree import ElementTree
@@ -70,49 +71,46 @@ class Player(xbmc.Player):
 
 
 class Storage():
-    uri = 'special://userdata/addon_data/' + addon_id + '/storage.json'
-    filename = xbmc.translatePath(uri)
 
-    def __init__(self, uri=None):
-        if uri:
-            self.uri = uri
-            self.filename = xbmc.translatePath(uri)
+    def __init__(self):
+        if addon.getSetting('use_nondefault_storage') == 'true':
+            self.uri = addon.getSetting('storage_path') + 'storage.json'
+        else:
+            self.uri = 'special://userdata/addon_data/' + addon_id + '/storage.json'
 
-    def load_dict(self):
+        storage_file = xbmcvfs.File(self.uri)
+        content = storage_file.read()
         try:
-            with open(self.filename, 'r') as f:
-                info = json.load(f)
-        except IOError:
-            info = {}
-        return info
+            self.info = json.loads(content)
+        except:
+            self.info = {}   
+        storage_file.close()
 
-    def dump_dict(self, info):
-        with open(self.filename, 'wb') as f:
-            json.dump(info, f, sort_keys=True, indent=4 * ' ')
+    def dump_dict(self):
+        storage_file = xbmcvfs.File(self.uri, 'w')
+        storage_file.write(json.dumps(self.info, sort_keys=True, indent=4 * ' '))
+        storage_file.close()
 
     def get(self, title, episode):
-        info = self.load_dict()
-
-        if info.get(title):
-            if info[title].get(episode):
-                return info[title][episode]
+        if self.info.get(title):
+            if self.info[title].get(episode):
+                return self.info[title][episode]
         return (0, 0)
 
     def set(self, title, episode, played, pos):
-        info = self.load_dict()
-        if not info.get(title):
-            info.update(
+        if not self.info.get(title):
+            self.info.update(
                 {
                     title: {
                         episode: (played, pos)
                     }
                 }
             )
-        elif not info[title].get(episode):
-            info[title].update({episode: (played, pos)})
+        elif not self.info[title].get(episode):
+            self.info[title].update({episode: (played, pos)})
         else:
-            info[title][episode] = (played, pos)
-        self.dump_dict(info)
+            self.info[title][episode] = (played, pos)
+        self.dump_dict()
 
 
 def show_notification(text, time=5000):
@@ -539,6 +537,8 @@ def PlayURL(info_dict):
     xbmcplugin.setResolvedUrl(handle, True, listitem=listitem)
 
     player = Player(info_dict=info_dict)
+    if player.isPlaying():
+        player.stop()
 
     player.play(video_url+make_header_string(headers), listitem)
 

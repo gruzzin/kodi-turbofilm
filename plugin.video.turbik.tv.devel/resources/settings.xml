@@ -7,6 +7,8 @@
 	<setting id="quality" type="select" label="30010" lvalues="30015|30016" default="0" />
 	<setting id="subtitles" type="select" label="30011" lvalues="30013|30014|30012" default="2" />
 	<setting id="use_unicode" type="bool" label="30018" default="true" />
+	<setting id="use_nondefault_storage" type="bool" label="30019" default="true" />
+	<setting id="storage_path" type="folder" label="30020" />	
 	<setting id="signout" type="action" label="30017" action="RunScript(plugin.video.turbik.tv.devel, sign_out)" />
 	<setting id="IAS_ID" type="text" visible="false" default="" />
 </settings>

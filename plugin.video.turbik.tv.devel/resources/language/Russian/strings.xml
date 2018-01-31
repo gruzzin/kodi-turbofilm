@@ -16,5 +16,7 @@
 	<string id="30015">Высокое качество</string>
 	<string id="30016">Стандартное качество</string>
 	<string id="30017">Выйти</string>
-	<string id="30018">Использовать символи Unicode?</string>
+	<string id="30018">Использовать символы Unicode?</string>
+	<string id="30019">Использовать хранилище по нестандартному пути?</string>
+	<string id="30020">Путь к хранилищу</string>
 </strings>
