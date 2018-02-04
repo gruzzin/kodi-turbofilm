@@ -83,10 +83,15 @@ class Storage():
         try:
             self.info = json.loads(content)
         except:
+            show_notification('Could not load storage, defaulting to empty')
             self.info = {}   
         storage_file.close()
 
     def dump_dict(self):
+        if xbmcvfs.exists(self.uri):
+            if xbmcvfs.exists(self.uri + '.old'):
+                xbmcvfs.delete(self.uri + '.old')
+            xbmcvfs.rename(self.uri, self.uri + '.old')
         storage_file = xbmcvfs.File(self.uri, 'w')
         storage_file.write(json.dumps(self.info, sort_keys=True, indent=4 * ' '))
         storage_file.close()
